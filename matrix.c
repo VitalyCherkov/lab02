@@ -27,7 +27,6 @@ Matrix* create_matrix_from_file(FILE* file){
   return matrix;
 }
 
-// STDERR?
 Matrix* create_matrix(int row, int col){
   if(row <= 0 || col <= 0)
     return NULL;
@@ -55,7 +54,6 @@ Matrix* create_matrix(int row, int col){
   return matrix;
 }
 
-// STDERR?
 void free_matrix(Matrix* matrix){
   if(!matrix)
     return;
@@ -68,15 +66,21 @@ void free_matrix(Matrix* matrix){
   free(matrix);
 }
 
-// STDERR?
 double get_elem(Matrix* matrix, int row, int col){
+  // Не могу ничего не вернуть, но чтоб не упала программа в случае обращения
+  // в далекие уголки памяти нужно вернуть что-то наиболее нейтральное
+  if(row < 0 || col < 0 || row >= get_rows(matrix) || col >= get_cols(matrix)){
+    fprintf(stderr, "E%d|%d", row, col);
+    return 0.0;
+  }
   return matrix->arr[row][col];
 }
 
-// STDERR?
 void set_elem(Matrix* matrix, int row, int col, double val){
   if(!matrix || get_rows(matrix) <= row || get_cols(matrix) <= col
     || row < 0 || col < 0)
+    return;
+  if(!matrix->arr || !matrix->arr[row])
     return;
   matrix->arr[row][col] = val;
 }
