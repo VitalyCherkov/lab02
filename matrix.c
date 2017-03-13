@@ -35,7 +35,7 @@ Matrix* create_matrix(int row, int col){
   if(!matrix)
     return NULL;
 
-  matrix->arr = malloc(sizeof(double*) * col);
+  matrix->arr = malloc(sizeof(double*) * row);
   if(!matrix->arr){
     free(matrix);
     return NULL;
@@ -57,7 +57,10 @@ Matrix* create_matrix(int row, int col){
 void free_matrix(Matrix* matrix){
   if(!matrix)
     return;
-
+  if(!matrix->arr){
+    free(matrix);
+    return;
+  }
   for(int i = 0; i < matrix->row; i++){
     free(matrix->arr[i]);
   }
@@ -78,10 +81,9 @@ double get_elem(Matrix* matrix, int row, int col){
 
 void set_elem(Matrix* matrix, int row, int col, double val){
   if(!matrix || get_rows(matrix) <= row || get_cols(matrix) <= col
-    || row < 0 || col < 0)
+    || row < 0 || col < 0 || !matrix->arr || !matrix->arr[row])
     return;
-  if(!matrix->arr || !matrix->arr[row])
-    return;
+
   matrix->arr[row][col] = val;
 }
 

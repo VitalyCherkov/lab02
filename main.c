@@ -11,14 +11,12 @@ int main(int argc, char *argv[]){
     printf("1 argument - name of file\n");
     return EXIT_FAILURE;
   }
-
   Matrix* matrix = readMatrix(argv[1]);
   if(!matrix){
     printf("Can not read file\n");
     return EXIT_FAILURE;
   }
   printMatrixT(matrix);
-
   free_matrix(matrix);
   return EXIT_SUCCESS;
 }
@@ -53,7 +51,7 @@ void printMatrixT(Matrix* matrix){
   }
 
   for(int i = 0; i < get_cols(matrix); i++){
-    for(int j = get_rows(matrix) - 1; j >= 0; j--){
+    for(int j = 0; j < get_rows(matrix); j++){
       printf("%lf ", get_elem(matrix, j, i));
     }
     printf("\n");
